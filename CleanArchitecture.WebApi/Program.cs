@@ -15,7 +15,7 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly);
 
 builder.Services.AddMediatR(cfr =>
-cfr.RegisterServicesFromAssembly(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly));
+cfr.RegisterServicesFromAssembly(typeof(CleanArchitecture.Application.AssemblyReference).Assembly));
 
 
 builder.Services.AddEndpointsApiExplorer();
