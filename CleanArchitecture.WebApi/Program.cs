@@ -1,7 +1,12 @@
+using CleanArchitecture.Application.Services;
 using CleanArchitecture.Persistance.Context;
+using CleanArchitecture.Persistance.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<ICarService, CarService>();
 
 string connectionString = builder.Configuration.GetConnectionString("SqlServer");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
@@ -9,7 +14,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddMediatR(cfr =>
+cfr.RegisterServicesFromAssembly(typeof(CleanArchitecture.Presentation.AssemblyReference).Assembly));
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
