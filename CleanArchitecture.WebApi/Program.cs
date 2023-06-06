@@ -7,6 +7,7 @@ using CleanArchitecture.Persistance.Context;
 using CleanArchitecture.Persistance.Repositories;
 using CleanArchitecture.Persistance.Services;
 using CleanArchitecture.WebApi.Middleware;
+using CleanArchitecture.WebApi.OptionSetup;
 using FluentValidation;
 using GenericRepository;
 using MediatR;
@@ -25,6 +26,13 @@ builder.Services.AddScoped<IMailService,MailService>();
 builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
+
+builder.Services.ConfigureOptions<JwtOptionSetup>();
+
+//Options ayarlarý burada yapýlmaktadýr.
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+builder.Services.AddAuthentication().AddJwtBearer();
 
 builder.Services.AddAutoMapper(typeof(CleanArchitecture.Persistance.AssemblyReference).Assembly);
 
