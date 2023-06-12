@@ -10,9 +10,9 @@ namespace CleanArchitecture.WebApi.OptionSetup
     {
         private readonly JwtOptions _jwtOptions;
 
-        public JwtBearerOptionsSetup(JwtOptions jwtOptions)
+        public JwtBearerOptionsSetup(IOptions<JwtOptions> jwtOptions)
         {
-            _jwtOptions = jwtOptions;
+            _jwtOptions = jwtOptions.Value;
         }
 
         public void PostConfigure(string name, JwtBearerOptions options)
@@ -23,7 +23,7 @@ namespace CleanArchitecture.WebApi.OptionSetup
             options.TokenValidationParameters.ValidateLifetime = true;
             options.TokenValidationParameters.ValidateIssuerSigningKey = true;
             options.TokenValidationParameters.ValidIssuer = _jwtOptions.Issuer;
-            options.TokenValidationParameters.ValidIssuer = _jwtOptions.Audience;
+            options.TokenValidationParameters.ValidAudience = _jwtOptions.Audience;
             options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
 
 
